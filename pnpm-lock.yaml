@@ -531,6 +531,46 @@ importers:
         specifier: ^0.0.9
         version: 0.0.9
 
+  examples/yjs-codemirror:
+    dependencies:
+      '@electric-sql/client':
+        specifier: workspace:*
+        version: link:../../packages/typescript-client
+      abort-controller:
+        specifier: ^3.0.0
+        version: 3.0.0
+      codemirror:
+        specifier: ^5.64.0
+        version: 5.65.17
+      js-base64:
+        specifier: ^3.7.7
+        version: 3.7.7
+      lib0:
+        specifier: ^0.2.96
+        version: 0.2.96
+      y-codemirror:
+        specifier: ^2.1.1
+        version: 2.1.1(codemirror@5.65.17)(yjs@13.6.18)
+      y-protocols:
+        specifier: ^1.0.5
+        version: 1.0.6(yjs@13.6.18)
+      yjs:
+        specifier: ^13.5.22
+        version: 13.6.18
+    devDependencies:
+      '@databases/pg-migrations':
+        specifier: ^5.0.3
+        version: 5.0.3(typescript@5.5.3)
+      dotenv:
+        specifier: ^16.4.5
+        version: 16.4.5
+      eslint:
+        specifier: ^8.57.0
+        version: 8.57.0
+      vite:
+        specifier: ^5.3.4
+        version: 5.3.4(@types/node@20.14.11)
+
   packages/react-hooks:
     dependencies:
       '@electric-sql/client':
@@ -3797,6 +3837,9 @@ packages:
     resolution: {integrity: sha512-RMr0FhtfXemyinomL4hrWcYJxmX6deFdCxpJzhDttxgO1+bcCnkk+9drydLVDmAMG7NE6aN/fl4F7ucU/90gAA==}
     engines: {node: '>=0.10.0'}
 
+  codemirror@5.65.17:
+    resolution: {integrity: sha512-1zOsUx3lzAOu/gnMAZkQ9kpIHcPYOc9y1Fbm2UVk5UBPkdq380nhkelG0qUwm1f7wPvTbndu9ZYlug35EwAZRQ==}
+
   color-convert@1.9.3:
     resolution: {integrity: sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==}
 
@@ -5117,6 +5160,9 @@ packages:
   isexe@2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
 
+  isomorphic.js@0.2.5:
+    resolution: {integrity: sha512-PIeMbHqMt4DnUP3MA/Flc0HElYjMXArsw1qwJZcm9sqR8mq3l8NYizFMty0pWwE/tzIGH3EKK5+jes5mAr85yw==}
+
   jackspeak@3.4.3:
     resolution: {integrity: sha512-OGlZQpz2yfahA/Rd1Y8Cd9SIEsqvXkLVoSw/cgwhnhFMDbsQFeZYoJJ7bIZBS9BcamUW96asq/npPWugM+RQBw==}
 
@@ -5150,6 +5196,9 @@ packages:
   joycon@3.1.1:
     resolution: {integrity: sha512-34wB/Y7MW7bzjKRjUKTa46I2Z7eV62Rkhva+KkopW7Qvv/OSWBqvkSY7vusOPrNuZcUG3tApvdVgNB8POj3SPw==}
     engines: {node: '>=10'}
+
+  js-base64@3.7.7:
+    resolution: {integrity: sha512-7rCnleh0z2CkXhH67J8K1Ytz0b2Y+yxTPL+/KOJoa20hfnVQ/3/T6W/KflYI4bRHRagNeXeU2bkNGI3v1oS/lw==}
 
   js-levenshtein@1.1.6:
     resolution: {integrity: sha512-X2BB11YZtrRqY4EnQcLX5Rh373zbK4alC1FW7D7MBhL2gtcC17cTnr6DmfHZeS0s2rTHjUTMMHfG7gO8SSdw+g==}
@@ -5238,6 +5287,11 @@ packages:
   levn@0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
     engines: {node: '>= 0.8.0'}
+
+  lib0@0.2.96:
+    resolution: {integrity: sha512-xeV9M34+D4HD1sd6xAarnWYgU7pKau64bvmPySibX85G+hx/KonzISpO409K6OS9IVLORWfQZkKBRZV5sQegFQ==}
+    engines: {node: '>=16'}
+    hasBin: true
 
   lilconfig@2.1.0:
     resolution: {integrity: sha512-utWOt/GHzuUxnLKxB6dk81RoOeoNeHgbrXiuGk4yyF5qlRz+iIVWu56E2fqGHFrXz0QNUhLB/8nKqvRH66JKGQ==}
@@ -7730,6 +7784,18 @@ packages:
     resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}
     engines: {node: '>=0.4'}
 
+  y-codemirror@2.1.1:
+    resolution: {integrity: sha512-QXHaOkvEJs3pB82dkW1aGfWUd4S1RA1ORtXWtprHClbqBiCOY19VKiojScSTyl8rTaOZ/zblEq+SNH2sd3Umiw==}
+    peerDependencies:
+      codemirror: ^5.52.2
+      yjs: ^13.0.0
+
+  y-protocols@1.0.6:
+    resolution: {integrity: sha512-vHRF2L6iT3rwj1jub/K5tYcTT/mEYDUppgNPXwp8fmLpui9f7Yeq3OEtTLVF012j39QnV+KEQpNqoN7CWU7Y9Q==}
+    engines: {node: '>=16.0.0', npm: '>=8.0.0'}
+    peerDependencies:
+      yjs: ^13.0.0
+
   y18n@5.0.8:
     resolution: {integrity: sha512-0pfFzegeDWJHJIAmTLRP2DwHjdF5s7jo9tuztdQxAhINCdvS+3nGINqPd00AphqJR/0LhANUS6/+7SCb98YOfA==}
     engines: {node: '>=10'}
@@ -7770,6 +7836,10 @@ packages:
   yargs@17.7.2:
     resolution: {integrity: sha512-7dSzzRQ++CKnNI/krKnYRV7JKKPUXMEh61soaHKg9mrWEhzFWhFnxPxGl+69cD1Ou63C13NUPCnmIcrvqCuM6w==}
     engines: {node: '>=12'}
+
+  yjs@13.6.18:
+    resolution: {integrity: sha512-GBTjO4QCmv2HFKFkYIJl7U77hIB1o22vSCSQD1Ge8ZxWbIbn8AltI4gyXbtL+g5/GJep67HCMq3Y5AmNwDSyEg==}
+    engines: {node: '>=16.0.0', npm: '>=8.0.0'}
 
   yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
@@ -11272,6 +11342,8 @@ snapshots:
 
   cluster-key-slot@1.1.2: {}
 
+  codemirror@5.65.17: {}
+
   color-convert@1.9.3:
     dependencies:
       color-name: 1.1.3
@@ -12761,6 +12833,8 @@ snapshots:
 
   isexe@2.0.0: {}
 
+  isomorphic.js@0.2.5: {}
+
   jackspeak@3.4.3:
     dependencies:
       '@isaacs/cliui': 8.0.2
@@ -12809,6 +12883,8 @@ snapshots:
   jiti@1.21.6: {}
 
   joycon@3.1.1: {}
+
+  js-base64@3.7.7: {}
 
   js-levenshtein@1.1.6: {}
 
@@ -12917,6 +12993,10 @@ snapshots:
     dependencies:
       prelude-ls: 1.2.1
       type-check: 0.4.0
+
+  lib0@0.2.96:
+    dependencies:
+      isomorphic.js: 0.2.5
 
   lilconfig@2.1.0: {}
 
@@ -15753,6 +15833,17 @@ snapshots:
 
   xtend@4.0.2: {}
 
+  y-codemirror@2.1.1(codemirror@5.65.17)(yjs@13.6.18):
+    dependencies:
+      codemirror: 5.65.17
+      lib0: 0.2.96
+      yjs: 13.6.18
+
+  y-protocols@1.0.6(yjs@13.6.18):
+    dependencies:
+      lib0: 0.2.96
+      yjs: 13.6.18
+
   y18n@5.0.8: {}
 
   yallist@2.1.2: {}
@@ -15790,6 +15881,10 @@ snapshots:
       string-width: 4.2.3
       y18n: 5.0.8
       yargs-parser: 21.1.1
+
+  yjs@13.6.18:
+    dependencies:
+      lib0: 0.2.96
 
   yocto-queue@0.1.0: {}
 
