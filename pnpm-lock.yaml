@@ -320,85 +320,6 @@ importers:
         specifier: ^5.3.4
         version: 5.3.4(@types/node@20.14.11)
 
-  examples/nextjs-yjs-codemirror:
-    dependencies:
-      '@codemirror/basic-setup':
-        specifier: ^0.19.0
-        version: 0.19.3
-      '@codemirror/lang-javascript':
-        specifier: ^0.19.0
-        version: 0.19.7
-      '@codemirror/state':
-        specifier: ^0.19.0
-        version: 0.19.9
-      '@codemirror/view':
-        specifier: ^0.19.0
-        version: 0.19.48
-      '@electric-sql/client':
-        specifier: workspace:*
-        version: link:../../packages/typescript-client
-      '@electric-sql/react':
-        specifier: workspace:*
-        version: link:../../packages/react-hooks
-      abort-controller:
-        specifier: ^3.0.0
-        version: 3.0.0
-      js-base64:
-        specifier: ^3.7.7
-        version: 3.7.7
-      lib0:
-        specifier: ^0.2.96
-        version: 0.2.96
-      next:
-        specifier: ^14.2.5
-        version: 14.2.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      pg:
-        specifier: ^8.12.0
-        version: 8.12.0
-      react:
-        specifier: ^18.3.1
-        version: 18.3.1
-      react-dom:
-        specifier: ^18.3.1
-        version: 18.3.1(react@18.3.1)
-      y-codemirror.next:
-        specifier: ^0.1.0
-        version: 0.1.4(@codemirror/state@0.19.9)(@codemirror/view@0.19.48)(yjs@13.6.18)
-      y-protocols:
-        specifier: 1.0.6
-        version: 1.0.6(yjs@13.6.18)
-      yjs:
-        specifier: ^13.6.18
-        version: 13.6.18
-    devDependencies:
-      '@databases/pg-migrations':
-        specifier: ^5.0.3
-        version: 5.0.3(typescript@5.5.3)
-      '@types/pg':
-        specifier: ^8.11.6
-        version: 8.11.6
-      '@types/react':
-        specifier: ^18.3.3
-        version: 18.3.3
-      '@types/react-dom':
-        specifier: ^18.3.0
-        version: 18.3.0
-      '@vitejs/plugin-react':
-        specifier: ^4.3.1
-        version: 4.3.1(vite@5.3.4(@types/node@20.14.11))
-      dotenv:
-        specifier: ^16.4.5
-        version: 16.4.5
-      eslint:
-        specifier: ^8.57.0
-        version: 8.57.0
-      typescript:
-        specifier: ^5.5.3
-        version: 5.5.3
-      vite:
-        specifier: ^5.3.4
-        version: 5.3.4(@types/node@20.14.11)
-
   examples/redis-client:
     dependencies:
       '@electric-sql/client':
@@ -609,6 +530,79 @@ importers:
       vite-plugin-capsize-radix:
         specifier: ^0.0.9
         version: 0.0.9
+
+  examples/yjs-provider:
+    dependencies:
+      '@codemirror/basic-setup':
+        specifier: ^0.19.0
+        version: 0.19.3
+      '@codemirror/lang-javascript':
+        specifier: ^0.19.0
+        version: 0.19.7
+      '@codemirror/state':
+        specifier: ^0.19.0
+        version: 0.19.9
+      '@codemirror/view':
+        specifier: ^0.19.0
+        version: 0.19.48
+      '@electric-sql/client':
+        specifier: workspace:*
+        version: link:../../packages/typescript-client
+      '@electric-sql/react':
+        specifier: workspace:*
+        version: link:../../packages/react-hooks
+      lib0:
+        specifier: ^0.2.96
+        version: 0.2.96
+      next:
+        specifier: ^14.2.5
+        version: 14.2.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      pg:
+        specifier: ^8.12.0
+        version: 8.12.0
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.1
+        version: 18.3.1(react@18.3.1)
+      y-codemirror.next:
+        specifier: ^0.1.0
+        version: 0.1.4(@codemirror/state@0.19.9)(@codemirror/view@0.19.48)(yjs@13.6.18)
+      y-protocols:
+        specifier: 1.0.6
+        version: 1.0.6(yjs@13.6.18)
+      yjs:
+        specifier: ^13.6.18
+        version: 13.6.18
+    devDependencies:
+      '@databases/pg-migrations':
+        specifier: ^5.0.3
+        version: 5.0.3(typescript@5.5.3)
+      '@types/pg':
+        specifier: ^8.11.6
+        version: 8.11.6
+      '@types/react':
+        specifier: ^18.3.3
+        version: 18.3.3
+      '@types/react-dom':
+        specifier: ^18.3.0
+        version: 18.3.0
+      '@vitejs/plugin-react':
+        specifier: ^4.3.1
+        version: 4.3.1(vite@5.3.4(@types/node@20.14.11))
+      dotenv:
+        specifier: ^16.4.5
+        version: 16.4.5
+      eslint:
+        specifier: ^8.57.0
+        version: 8.57.0
+      typescript:
+        specifier: ^5.5.3
+        version: 5.5.3
+      vite:
+        specifier: ^5.3.4
+        version: 5.3.4(@types/node@20.14.11)
 
   packages/react-hooks:
     dependencies:
@@ -5317,9 +5311,6 @@ packages:
   joycon@3.1.1:
     resolution: {integrity: sha512-34wB/Y7MW7bzjKRjUKTa46I2Z7eV62Rkhva+KkopW7Qvv/OSWBqvkSY7vusOPrNuZcUG3tApvdVgNB8POj3SPw==}
     engines: {node: '>=10'}
-
-  js-base64@3.7.7:
-    resolution: {integrity: sha512-7rCnleh0z2CkXhH67J8K1Ytz0b2Y+yxTPL+/KOJoa20hfnVQ/3/T6W/KflYI4bRHRagNeXeU2bkNGI3v1oS/lw==}
 
   js-levenshtein@1.1.6:
     resolution: {integrity: sha512-X2BB11YZtrRqY4EnQcLX5Rh373zbK4alC1FW7D7MBhL2gtcC17cTnr6DmfHZeS0s2rTHjUTMMHfG7gO8SSdw+g==}
@@ -13172,8 +13163,6 @@ snapshots:
   jiti@1.21.6: {}
 
   joycon@3.1.1: {}
-
-  js-base64@3.7.7: {}
 
   js-levenshtein@1.1.6: {}
 
