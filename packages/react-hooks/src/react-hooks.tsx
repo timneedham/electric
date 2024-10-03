@@ -4,9 +4,16 @@ import {
   ShapeStreamOptions,
   Row,
   ShapeData,
+  Offset,
 } from '@electric-sql/client'
 import React from 'react'
 import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/with-selector.js'
+
+export type SerializedShapeData = {
+  offset: Offset
+  shapeId: string | undefined
+  data?: Record<string, unknown>
+}
 
 const streamCache = new Map<string, ShapeStream>()
 const shapeCache = new Map<ShapeStream, Shape>()
@@ -139,4 +146,15 @@ export function useShape<
   }, [shape, selector])
 
   return useShapeData()
+}
+export function getSerializedShape(
+  options: ShapeStreamOptions
+): SerializedShapeData {
+  const shapeStream = getShapeStream(options)
+  const shape = getShape(shapeStream)
+  return {
+    shapeId: shapeStream.shapeId,
+    offset: shapeStream.offset,
+    data: Object.fromEntries(shape.valueSync),
+  }
 }
