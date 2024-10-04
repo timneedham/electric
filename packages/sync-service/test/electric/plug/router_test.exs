@@ -72,7 +72,7 @@ defmodule Electric.Plug.RouterTest do
          ]
     test "GET returns a snapshot of initial data", %{opts: opts} do
       conn =
-        conn("GET", "/v1/shape/items?offset=-1")
+        conn("GET", "v1/shape?table=items&offset=-1")
         |> Router.call(opts)
 
       assert %{status: 200} = conn
@@ -93,7 +93,7 @@ defmodule Electric.Plug.RouterTest do
 
     test "GET returns an error when table is not found", %{opts: opts} do
       conn =
-        conn("GET", "/v1/shape/nonexistent?offset=-1")
+        conn("GET", "v1/shape?table=nonexistent&offset=-1")
         |> Router.call(opts)
 
       assert %{status: 400} = conn
@@ -107,7 +107,7 @@ defmodule Electric.Plug.RouterTest do
          ]
     test "GET returns values in the snapshot and the rest of the log in the same format (as strings)",
          %{opts: opts, db_conn: db_conn} do
-      conn = conn("GET", "/v1/shape/items?offset=-1") |> Router.call(opts)
+      conn = conn("GET", "v1/shape?table=items&offset=-1") |> Router.call(opts)
       assert [%{"value" => %{"num" => "1"}}, _] = Jason.decode!(conn.resp_body)
 
       Postgrex.query!(
@@ -119,7 +119,7 @@ defmodule Electric.Plug.RouterTest do
       shape_id = get_resp_shape_id(conn)
 
       conn =
-        conn("GET", "/v1/shape/items?shape_id=#{shape_id}&offset=0_0&live") |> Router.call(opts)
+        conn("GET", "v1/shape?table=items?shape_id=#{shape_id}&offset=0_0&live") |> Router.call(opts)
 
       assert [%{"value" => %{"num" => "2"}}, _] = Jason.decode!(conn.resp_body)
     end
@@ -130,7 +130,7 @@ defmodule Electric.Plug.RouterTest do
     test "DELETE forces the shape ID to be different on reconnect and new snapshot to be created",
          %{opts: opts, db_conn: db_conn} do
       conn =
-        conn("GET", "/v1/shape/items?offset=-1")
+        conn("GET", "v1/shape?table=items&offset=-1")
         |> Router.call(opts)
 
       assert %{status: 200} = conn
@@ -140,14 +140,14 @@ defmodule Electric.Plug.RouterTest do
                Jason.decode!(conn.resp_body)
 
       assert %{status: 202} =
-               conn("DELETE", "/v1/shape/items?shape_id=#{shape1_id}")
+               conn("DELETE", "v1/shape?table=items?shape_id=#{shape1_id}")
                |> Router.call(opts)
 
       Postgrex.query!(db_conn, "DELETE FROM items", [])
       Postgrex.query!(db_conn, "INSERT INTO items VALUES (gen_random_uuid(), 'test value 2')", [])
 
       conn =
-        conn("GET", "/v1/shape/items?offset=-1")
+        conn("GET", "v1/shape?table=items&offset=-1")
         |> Router.call(opts)
 
       assert %{status: 200} = conn
@@ -168,7 +168,7 @@ defmodule Electric.Plug.RouterTest do
     } do
       # Request a snapshot
       conn =
-        conn("GET", "/v1/shape/foo?offset=-1")
+        conn("GET", "v1/shape?table=foo&offset=-1")
         |> Router.call(opts)
 
       assert %{status: 200} = conn
@@ -198,7 +198,7 @@ defmodule Electric.Plug.RouterTest do
 
       task =
         Task.async(fn ->
-          conn("GET", "/v1/shape/foo?offset=#{@first_offset}&shape_id=#{shape_id}&live")
+          conn("GET", "v1/shape?table=foo&offset=#{@first_offset}&shape_id=#{shape_id}&live")
           |> Router.call(opts)
         end)
 
@@ -241,7 +241,7 @@ defmodule Electric.Plug.RouterTest do
            "INSERT INTO wide_table VALUES (1, 'test value 1', 'test value 1', 'test value 1')"
          ]
     test "GET received only a diff when receiving updates", %{opts: opts, db_conn: db_conn} do
-      conn = conn("GET", "/v1/shape/wide_table?offset=-1") |> Router.call(opts)
+      conn = conn("GET", "v1/shape?table=wide_table&offset=-1") |> Router.call(opts)
       assert %{status: 200} = conn
       shape_id = get_resp_shape_id(conn)
 
@@ -255,7 +255,7 @@ defmodule Electric.Plug.RouterTest do
 
       task =
         Task.async(fn ->
-          conn("GET", "/v1/shape/wide_table?offset=0_0&shape_id=#{shape_id}&live")
+          conn("GET", "v1/shape?table=wide_table&offset=0_0&shape_id=#{shape_id}&live")
           |> Router.call(opts)
         end)
 
@@ -276,7 +276,7 @@ defmodule Electric.Plug.RouterTest do
       opts: opts,
       db_conn: db_conn
     } do
-      conn = conn("GET", "/v1/shape/wide_table?offset=-1") |> Router.call(opts)
+      conn = conn("GET", "v1/shape?table=wide_table&offset=-1") |> Router.call(opts)
       assert %{status: 200} = conn
       shape_id = get_resp_shape_id(conn)
 
@@ -290,7 +290,7 @@ defmodule Electric.Plug.RouterTest do
 
       task =
         Task.async(fn ->
-          conn("GET", "/v1/shape/wide_table?offset=0_0&shape_id=#{shape_id}&live")
+          conn("GET", "v1/shape?table=wide_table&offset=0_0&shape_id=#{shape_id}&live")
           |> Router.call(opts)
         end)
 
@@ -340,7 +340,7 @@ defmodule Electric.Plug.RouterTest do
          ]
     test "GET works correctly when table has no PK",
          %{opts: opts, db_conn: db_conn} do
-      conn = conn("GET", "/v1/shape/test_table?offset=-1") |> Router.call(opts)
+      conn = conn("GET", "v1/shape?table=test_table&offset=-1") |> Router.call(opts)
       assert %{status: 200} = conn
       shape_id = get_resp_shape_id(conn)
 
@@ -349,7 +349,7 @@ defmodule Electric.Plug.RouterTest do
 
       task =
         Task.async(fn ->
-          conn("GET", "/v1/shape/test_table?offset=0_0&shape_id=#{shape_id}&live")
+          conn("GET", "v1/shape?table=test_table&offset=0_0&shape_id=#{shape_id}&live")
           |> Router.call(opts)
         end)
 
@@ -392,7 +392,7 @@ defmodule Electric.Plug.RouterTest do
       where = "value ILIKE 'yes%'"
 
       conn =
-        conn("GET", "/v1/shape/items", %{offset: "-1", where: where})
+        conn("GET", "v1/shape?table=items", %{offset: "-1", where: where})
         |> Router.call(opts)
 
       assert %{status: 200} = conn
@@ -402,7 +402,7 @@ defmodule Electric.Plug.RouterTest do
 
       task =
         Task.async(fn ->
-          conn("GET", "/v1/shape/items", %{
+          conn("GET", "v1/shape?table=items", %{
             offset: "0_0",
             shape_id: shape_id,
             where: where,
@@ -424,7 +424,7 @@ defmodule Electric.Plug.RouterTest do
 
       assert %{status: 200} =
                conn =
-               conn("GET", "/v1/shape/items", %{
+               conn("GET", "v1/shape?table=items", %{
                  offset: new_offset,
                  shape_id: shape_id,
                  where: where
@@ -444,7 +444,7 @@ defmodule Electric.Plug.RouterTest do
 
       # Verify that a single row is in-shape initially.
       conn =
-        conn("GET", "/v1/shape/serial_ids", %{offset: "-1", where: where})
+        conn("GET", "v1/shape?table=serial_ids", %{offset: "-1", where: where})
         |> Router.call(opts)
 
       assert %{status: 200} = conn
@@ -463,7 +463,7 @@ defmodule Electric.Plug.RouterTest do
 
       task =
         Task.async(fn ->
-          conn("GET", "/v1/shape/serial_ids", %{
+          conn("GET", "v1/shape?table=serial_ids", %{
             offset: "0_0",
             shape_id: shape_id,
             where: where,
@@ -493,7 +493,7 @@ defmodule Electric.Plug.RouterTest do
       # DELETE operations, respectively.
       task =
         Task.async(fn ->
-          conn("GET", "/v1/shape/serial_ids", %{
+          conn("GET", "v1/shape?table=serial_ids", %{
             offset: new_offset,
             shape_id: shape_id,
             where: where,
@@ -552,7 +552,7 @@ defmodule Electric.Plug.RouterTest do
 
       # Verify that a two rows are in-shape initially.
       conn =
-        conn("GET", "/v1/shape/serial_ids", %{offset: "-1", where: where})
+        conn("GET", "v1/shape?table=serial_ids", %{offset: "-1", where: where})
         |> Router.call(opts)
 
       assert %{status: 200} = conn
@@ -577,7 +577,7 @@ defmodule Electric.Plug.RouterTest do
       # Simulate a move-in and a move-out by changing the PK of some rows.
       task =
         Task.async(fn ->
-          conn("GET", "/v1/shape/serial_ids", %{
+          conn("GET", "v1/shape?table=serial_ids", %{
             offset: "0_0",
             shape_id: shape_id,
             where: where,
@@ -639,7 +639,7 @@ defmodule Electric.Plug.RouterTest do
       second_val = String.duplicate("b", round(threshold * 0.7))
       third_val = String.duplicate("c", round(threshold * 0.4))
 
-      conn = conn("GET", "/v1/shape/large_rows_table?offset=-1") |> Router.call(opts)
+      conn = conn("GET", "v1/shape?table=large_rows_table&offset=-1") |> Router.call(opts)
       assert %{status: 200} = conn
       [shape_id] = Plug.Conn.get_resp_header(conn, "electric-shape-id")
       [next_offset] = Plug.Conn.get_resp_header(conn, "electric-chunk-last-offset")
@@ -651,7 +651,7 @@ defmodule Electric.Plug.RouterTest do
         Task.async(fn ->
           conn(
             "GET",
-            "/v1/shape/large_rows_table?offset=#{next_offset}&shape_id=#{shape_id}&live"
+            "v1/shape?table=large_rows_table&offset=#{next_offset}&shape_id=#{shape_id}&live"
           )
           |> Router.call(opts)
         end)
@@ -665,7 +665,7 @@ defmodule Electric.Plug.RouterTest do
       assert %{status: 200} = Task.await(task)
 
       conn =
-        conn("GET", "/v1/shape/large_rows_table?offset=#{next_offset}&shape_id=#{shape_id}")
+        conn("GET", "v1/shape?table=large_rows_table&offset=#{next_offset}&shape_id=#{shape_id}")
         |> Router.call(opts)
 
       assert %{status: 200} = conn
@@ -686,7 +686,7 @@ defmodule Electric.Plug.RouterTest do
       [next_offset] = Plug.Conn.get_resp_header(conn, "electric-chunk-last-offset")
 
       conn =
-        conn("GET", "/v1/shape/large_rows_table?offset=#{next_offset}&shape_id=#{shape_id}")
+        conn("GET", "v1/shape?table=large_rows_table&offset=#{next_offset}&shape_id=#{shape_id}")
         |> Router.call(opts)
 
       assert %{status: 200} = conn
@@ -711,7 +711,7 @@ defmodule Electric.Plug.RouterTest do
       # Initial shape request
       # forces the shape to be created
       conn =
-        conn("GET", "/v1/shape/items", %{offset: "-1", where: where})
+        conn("GET", "v1/shape?table=items", %{offset: "-1", where: where})
         |> Router.call(opts)
 
       assert %{status: 200} = conn
@@ -722,7 +722,7 @@ defmodule Electric.Plug.RouterTest do
 
       # Make the next request but forget to include the where clause
       conn =
-        conn("GET", "/v1/shape/items", %{offset: next_offset, shape_id: shape_id})
+        conn("GET", "v1/shape?table=items", %{offset: next_offset, shape_id: shape_id})
         |> Router.call(opts)
 
       assert %{status: 400} = conn
@@ -735,7 +735,7 @@ defmodule Electric.Plug.RouterTest do
          } do
       # Make the next request but forget to include the where clause
       conn =
-        conn("GET", "/v1/shape/items", %{offset: "0_0", shape_id: "nonexistent"})
+        conn("GET", "v1/shape?table=items", %{offset: "0_0", shape_id: "nonexistent"})
         |> Router.call(opts)
 
       assert %{status: 409} = conn
@@ -743,7 +743,7 @@ defmodule Electric.Plug.RouterTest do
       new_shape_id = get_resp_header(conn, "electric-shape-id")
 
       assert get_resp_header(conn, "location") ==
-               "/v1/shape/items?shape_id=#{new_shape_id}&offset=-1"
+               "v1/shape?table=items?shape_id=#{new_shape_id}&offset=-1"
     end
 
     test "GET receives 409 when shape ID is not found but there is another shape matching the definition",
@@ -755,7 +755,7 @@ defmodule Electric.Plug.RouterTest do
       # Initial shape request
       # forces the shape to be created
       conn =
-        conn("GET", "/v1/shape/items", %{offset: "-1", where: where})
+        conn("GET", "v1/shape?table=items", %{offset: "-1", where: where})
         |> Router.call(opts)
 
       assert %{status: 200} = conn
@@ -765,7 +765,7 @@ defmodule Electric.Plug.RouterTest do
 
       # Request the same shape definition but with invalid shape_id
       conn =
-        conn("GET", "/v1/shape/items", %{offset: "0_0", shape_id: "nonexistent", where: where})
+        conn("GET", "v1/shape?table=items", %{offset: "0_0", shape_id: "nonexistent", where: where})
         |> Router.call(opts)
 
       assert %{status: 409} = conn
@@ -777,7 +777,7 @@ defmodule Electric.Plug.RouterTest do
          ]
     test "HEAD receives all headers", %{opts: opts} do
       conn_res =
-        conn("GET", "/v1/shape/items?offset=-1")
+        conn("GET", "v1/shape?table=items&offset=-1")
         |> Router.call(opts)
 
       assert %{status: 200} = conn_res
@@ -788,7 +788,7 @@ defmodule Electric.Plug.RouterTest do
         |> Enum.filter(&(Kernel.elem(&1, 0) != "x-request-id"))
 
       conn =
-        conn("HEAD", "/v1/shape/items?offset=-1")
+        conn("HEAD", "v1/shape?table=items&offset=-1")
         |> Router.call(opts)
 
       assert %{status: 200} = conn
@@ -803,7 +803,7 @@ defmodule Electric.Plug.RouterTest do
 
     test "OPTIONS receives supported methods", %{opts: opts} do
       conn =
-        conn("OPTIONS", "/v1/shape/items")
+        conn("OPTIONS", "v1/shape?table=items")
         |> Router.call(opts)
 
       assert %{status: 204} = conn
