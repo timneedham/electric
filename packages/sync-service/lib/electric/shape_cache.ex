@@ -112,7 +112,10 @@ defmodule Electric.ShapeCache do
     if shape_status.set_latest_offset(meta_table, shape_handle, latest_offset) do
       :ok
     else
-      Logger.warning("Tried to update latest offset for shape #{shape_handle} which doesn't exist")
+      Logger.warning(
+        "Tried to update latest offset for shape #{shape_handle} which doesn't exist"
+      )
+
       :error
     end
   end
@@ -268,7 +271,11 @@ defmodule Electric.ShapeCache do
   end
 
   @impl GenStage
-  def handle_call({:create_or_wait_shape_handle, shape}, _from, %{shape_status: shape_status} = state) do
+  def handle_call(
+        {:create_or_wait_shape_handle, shape},
+        _from,
+        %{shape_status: shape_status} = state
+      ) do
     {{shape_handle, latest_offset}, state} =
       if shape_state = shape_status.get_existing_shape(state.persistent_state, shape) do
         {shape_state, state}
@@ -284,7 +291,11 @@ defmodule Electric.ShapeCache do
     {:reply, {shape_handle, latest_offset}, [], state}
   end
 
-  def handle_call({:await_snapshot_start, shape_handle}, from, %{shape_status: shape_status} = state) do
+  def handle_call(
+        {:await_snapshot_start, shape_handle},
+        from,
+        %{shape_status: shape_status} = state
+      ) do
     cond do
       not is_known_shape_handle?(state, shape_handle) ->
         {:reply, {:error, :unknown}, [], state}
@@ -299,7 +310,11 @@ defmodule Electric.ShapeCache do
     end
   end
 
-  def handle_call({:wait_shape_handle, shape_handle}, _from, %{shape_status: shape_status} = state) do
+  def handle_call(
+        {:wait_shape_handle, shape_handle},
+        _from,
+        %{shape_status: shape_status} = state
+      ) do
     {:reply, !is_nil(shape_status.get_existing_shape(state.persistent_state, shape_handle)), [],
      state}
   end
@@ -330,7 +345,10 @@ defmodule Electric.ShapeCache do
   end
 
   @impl GenStage
-  def handle_cast({:snapshot_xmin_known, shape_handle, xmin}, %{shape_status: shape_status} = state) do
+  def handle_cast(
+        {:snapshot_xmin_known, shape_handle, xmin},
+        %{shape_status: shape_status} = state
+      ) do
     unless shape_status.set_snapshot_xmin(state.persistent_state, shape_handle, xmin) do
       Logger.warning(
         "Got snapshot information for a #{shape_handle}, that shape id is no longer valid. Ignoring."

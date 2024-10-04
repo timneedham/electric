@@ -77,7 +77,8 @@ defmodule Electric.Plug.ServeShapePlug do
       end
     end
 
-    def validate_shape_handle_with_offset(%Ecto.Changeset{valid?: false} = changeset), do: changeset
+    def validate_shape_handle_with_offset(%Ecto.Changeset{valid?: false} = changeset),
+      do: changeset
 
     def validate_shape_handle_with_offset(%Ecto.Changeset{} = changeset) do
       offset = fetch_change!(changeset, :offset)
@@ -181,7 +182,8 @@ defmodule Electric.Plug.ServeShapePlug do
   end
 
   defp handle_shape_info(
-         %Conn{assigns: %{shape_definition: shape, config: config, shape_handle: shape_handle}} = conn,
+         %Conn{assigns: %{shape_definition: shape, config: config, shape_handle: shape_handle}} =
+           conn,
          nil
        ) do
     # There is no shape that matches the shape definition (because shape info is `nil`)
@@ -524,7 +526,8 @@ defmodule Electric.Plug.ServeShapePlug do
       if is_struct(conn.query_params, Plug.Conn.Unfetched) do
         assigns[:active_shape_handle] || assigns[:shape_handle]
       else
-        conn.query_params["shape_handle"] || assigns[:active_shape_handle] || assigns[:shape_handle]
+        conn.query_params["shape_handle"] || assigns[:active_shape_handle] ||
+          assigns[:shape_handle]
       end
 
     query_params_map =

@@ -119,7 +119,8 @@ defmodule Electric.Plug.RouterTest do
       shape_handle = get_resp_shape_handle(conn)
 
       conn =
-        conn("GET", "/v1/shape/items?shape_handle=#{shape_handle}&offset=0_0&live") |> Router.call(opts)
+        conn("GET", "/v1/shape/items?shape_handle=#{shape_handle}&offset=0_0&live")
+        |> Router.call(opts)
 
       assert [%{"value" => %{"num" => "2"}}, _] = Jason.decode!(conn.resp_body)
     end
@@ -665,7 +666,10 @@ defmodule Electric.Plug.RouterTest do
       assert %{status: 200} = Task.await(task)
 
       conn =
-        conn("GET", "/v1/shape/large_rows_table?offset=#{next_offset}&shape_handle=#{shape_handle}")
+        conn(
+          "GET",
+          "/v1/shape/large_rows_table?offset=#{next_offset}&shape_handle=#{shape_handle}"
+        )
         |> Router.call(opts)
 
       assert %{status: 200} = conn
@@ -686,7 +690,10 @@ defmodule Electric.Plug.RouterTest do
       [next_offset] = Plug.Conn.get_resp_header(conn, "electric-chunk-last-offset")
 
       conn =
-        conn("GET", "/v1/shape/large_rows_table?offset=#{next_offset}&shape_handle=#{shape_handle}")
+        conn(
+          "GET",
+          "/v1/shape/large_rows_table?offset=#{next_offset}&shape_handle=#{shape_handle}"
+        )
         |> Router.call(opts)
 
       assert %{status: 200} = conn

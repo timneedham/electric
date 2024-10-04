@@ -78,7 +78,10 @@ defmodule Electric.Shapes.Consumer do
     {:reply, ref, [], %{state | monitors: [{pid, ref} | monitors]}}
   end
 
-  def handle_cast({:snapshot_xmin_known, shape_handle, xmin}, %{shape_handle: shape_handle} = state) do
+  def handle_cast(
+        {:snapshot_xmin_known, shape_handle, xmin},
+        %{shape_handle: shape_handle} = state
+      ) do
     ShapeCache.Storage.set_snapshot_xmin(xmin, state.storage)
 
     cast_shape_cache({:snapshot_xmin_known, shape_handle, xmin}, state)
@@ -151,7 +154,8 @@ defmodule Electric.Shapes.Consumer do
 
   defp handle_txn(%Transaction{} = txn, state) do
     ot_attrs =
-      [xid: txn.xid, num_changes: length(txn.changes)] ++ shape_attrs(state.shape_handle, state.shape)
+      [xid: txn.xid, num_changes: length(txn.changes)] ++
+        shape_attrs(state.shape_handle, state.shape)
 
     OpenTelemetry.with_span("shape_write.consumer.handle_txn", ot_attrs, fn ->
       do_handle_txn(txn, state)

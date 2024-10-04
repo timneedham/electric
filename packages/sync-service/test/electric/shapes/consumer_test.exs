@@ -546,7 +546,10 @@ defmodule Electric.Shapes.ConsumerTest do
 
     def handle_call({:get_current_position, shape_handle}, _from, state) do
       %{latest_offset: offset, snapshot_xmin: xmin} =
-        Map.get(state.shapes, shape_handle, %{latest_offset: LogOffset.first(), snapshot_xmin: nil})
+        Map.get(state.shapes, shape_handle, %{
+          latest_offset: LogOffset.first(),
+          snapshot_xmin: nil
+        })
 
       {:reply, {:ok, offset, xmin}, state}
     end

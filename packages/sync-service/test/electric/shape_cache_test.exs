@@ -139,7 +139,8 @@ defmodule Electric.ShapeCacheTest do
       {shape_handle, _} = ShapeCache.get_or_create_shape_handle(@shape, opts)
 
       # subsequent calls return the same shape_handle
-      for _ <- 1..10, do: assert({^shape_handle, _} = ShapeCache.get_or_create_shape_handle(@shape, opts))
+      for _ <- 1..10,
+          do: assert({^shape_handle, _} = ShapeCache.get_or_create_shape_handle(@shape, opts))
 
       assert :started = ShapeCache.await_snapshot_start(shape_handle, opts)
 
@@ -340,9 +341,11 @@ defmodule Electric.ShapeCacheTest do
       expected_offset_after_log_entry =
         LogOffset.new(Electric.Postgres.Lsn.from_integer(1000), 0)
 
-      :ok = ShapeCache.update_shape_latest_offset(shape_handle, expected_offset_after_log_entry, opts)
+      :ok =
+        ShapeCache.update_shape_latest_offset(shape_handle, expected_offset_after_log_entry, opts)
 
-      assert {^shape_handle, offset_after_log_entry} = ShapeCache.get_or_create_shape_handle(@shape, opts)
+      assert {^shape_handle, offset_after_log_entry} =
+               ShapeCache.get_or_create_shape_handle(@shape, opts)
 
       assert initial_offset == @zero_offset
       assert initial_offset == offset_after_snapshot
@@ -752,7 +755,10 @@ defmodule Electric.ShapeCacheTest do
       {module, _} = storage
 
       ref =
-        Process.monitor(module.name(ctx.electric_instance_id, shape_handle) |> GenServer.whereis())
+        Process.monitor(
+          module.name(ctx.electric_instance_id, shape_handle)
+          |> GenServer.whereis()
+        )
 
       log = capture_log(fn -> :ok = ShapeCache.clean_shape(shape_handle, opts) end)
       assert log =~ "Cleaning up shape"

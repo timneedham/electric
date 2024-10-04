@@ -27,7 +27,8 @@ defmodule Electric.Shapes.Consumer.Snapshotter do
   end
 
   def handle_continue(:start_snapshot, state) do
-    %{shape_handle: shape_handle, shape: shape, electric_instance_id: electric_instance_id} = state
+    %{shape_handle: shape_handle, shape: shape, electric_instance_id: electric_instance_id} =
+      state
 
     case Shapes.Consumer.whereis(electric_instance_id, shape_handle) do
       consumer when is_pid(consumer) ->
@@ -50,7 +51,10 @@ defmodule Electric.Shapes.Consumer.Snapshotter do
                 apply(create_snapshot_fn, [consumer, shape_handle, shape, pool, storage])
               rescue
                 error ->
-                  GenServer.cast(consumer, {:snapshot_failed, shape_handle, error, __STACKTRACE__})
+                  GenServer.cast(
+                    consumer,
+                    {:snapshot_failed, shape_handle, error, __STACKTRACE__}
+                  )
               end
             end
           )

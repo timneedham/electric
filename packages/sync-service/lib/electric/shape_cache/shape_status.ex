@@ -161,7 +161,8 @@ defmodule Electric.ShapeCache.ShapeStatus do
     end
   end
 
-  @spec get_existing_shape(t(), shape_handle() | Shape.t()) :: nil | {shape_handle(), LogOffset.t()}
+  @spec get_existing_shape(t(), shape_handle() | Shape.t()) ::
+          nil | {shape_handle(), LogOffset.t()}
   def get_existing_shape(%__MODULE__{shape_meta_table: table}, shape_or_id) do
     get_existing_shape(table, shape_or_id)
   end
@@ -203,7 +204,11 @@ defmodule Electric.ShapeCache.ShapeStatus do
     ])
   end
 
-  def set_latest_offset(%__MODULE__{shape_meta_table: table} = _state, shape_handle, latest_offset) do
+  def set_latest_offset(
+        %__MODULE__{shape_meta_table: table} = _state,
+        shape_handle,
+        latest_offset
+      ) do
     set_latest_offset(table, shape_handle, latest_offset)
   end
 
