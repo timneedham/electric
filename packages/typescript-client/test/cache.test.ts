@@ -82,7 +82,7 @@ describe(`HTTP Proxy Cache`, { timeout: 30000 }, () => {
     await insertIssues({ title: `foo` })
     const searchParams = new URLSearchParams({
       offset: initialRes.headers.get(`electric-chunk-last-offset`)!,
-      shape_id: initialRes.headers.get(`electric-shape-id`)!,
+      shape_handle: initialRes.headers.get(`electric-shape-id`)!,
       live: `true`,
     })
 
@@ -246,7 +246,7 @@ describe(`HTTP Initial Data Caching`, { timeout: 30000 }, () => {
     // should tell you to go back to initial sync
     // because the shape is out of scope
     const liveRes = await fetch(
-      `${proxyCacheBaseUrl}/v1/shape/${issuesTableUrl}?offset=${latestOffset}&shape_id=${originalShapeId}&live`,
+      `${proxyCacheBaseUrl}/v1/shape/${issuesTableUrl}?offset=${latestOffset}&shape_handle=${originalShapeId}&live`,
       {}
     )
     expect(liveRes.status).toBe(409)
